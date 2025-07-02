@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Contributions of Dr. Ramesha H. Jayaramaiah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Earthy Neutrals -->
+    <!-- Application Structure Plan: A thematic, single-page application with a fixed sidebar navigation. This structure allows users to explore Dr. Jayaramaiah's work non-linearly, jumping between his career journey, research pillars, and publications. This is more intuitive and engaging than a long, scrolling report. Key interactions include an interactive timeline, clickable research theme cards that reveal detailed information, and a dynamic publications chart and filter. This design breaks down dense information into digestible, user-driven segments, enhancing comprehension and engagement. -->
+    <!-- Visualization & Content Choices: 
+        - Career Journey -> Goal: Organize/Change -> Viz: Interactive vertical timeline (HTML/CSS/JS) -> Interaction: Click to expand details -> Justification: More engaging than a static list, shows progression clearly.
+        - Publication Stats -> Goal: Change -> Viz: Bar chart (Chart.js/Canvas) of publications per year -> Interaction: Hover for details -> Justification: Quickly visualizes scholarly output growth.
+        - Core Research Areas -> Goal: Organize/Inform -> Viz: Interactive cards (HTML/CSS/JS) -> Interaction: Click to display detailed text -> Justification: Breaks down complex themes into manageable, user-selected chunks.
+        - Publications List -> Goal: Organize -> Viz: Filterable list (HTML/JS) -> Interaction: Click buttons to filter by theme -> Justification: Allows users to easily find publications relevant to their interests. 
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF8; }
+        h1, h2, h3 { font-family: 'Lora', serif; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .nav-link { transition: all 0.3s ease; }
+        .nav-link.active { background-color: #D5C5B5; color: #4F463C; }
+        .nav-link:hover { background-color: #EAE3DA; }
+        .timeline-item::before { content: ''; position: absolute; left: 11px; top: 12px; bottom: -12px; width: 2px; background-color: #D5C5B5; }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot { position: absolute; left: 0; top: 12px; width: 24px; height: 24px; border-radius: 50%; background-color: #A38D78; border: 4px solid #FDFBF8; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+    </style>
+</head>
+<body class="text-[#4F463C]">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <aside class="w-full md:w-64 bg-[#F4F0EB] p-4 md:p-6 md:fixed md:h-full">
+            <h1 class="text-2xl font-bold mb-2 text-[#6D5D4D]">Dr. Ramesha H. Jayaramaiah</h1>
+            <p class="text-sm text-[#A38D78] mb-6">Interactive Scientific Profile</p>
+            <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
+                <a href="#overview" class="nav-link text-left w-full p-3 rounded-lg font-medium">Profile Overview</a>
+                <a href="#journey" class="nav-link text-left w-full p-3 rounded-lg font-medium">Career Journey</a>
+                <a href="#research" class="nav-link text-left w-full p-3 rounded-lg font-medium">Research Pillars</a>
+                <a href="#publications" class="nav-link text-left w-full p-3 rounded-lg font-medium">Publications</a>
+            </nav>
+            <div class="mt-8 hidden md:block">
+                 <p class="text-xs text-[#A38D78]">This interactive application summarizes the key scientific contributions, career milestones, and research impact of Dr. Jayaramaiah, based on his public scholarly record.</p>
+            </div>
+        </aside>
+
+        <main class="flex-1 md:ml-64 p-4 sm:p-8 md:p-12">
+            <div id="overview" class="content-section">
+                <h2 class="text-4xl font-bold mb-4">At a Glance: The Scientific Journey of Dr. Ramesha H. Jayaramaiah</h2>
+                 <p class="text-lg text-[#6D5D4D] mb-8 max-w-4xl">This section provides a summary of Dr. Jayaramaiah's profile, highlighting his current role, core research philosophy, and key scholarly metrics. It serves as an introduction to his significant work at the intersection of soil science, microbial ecology, and sustainable agriculture.</p>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-base leading-relaxed text-gray-700 mb-6">Dr. Ramesha H. Jayaramaiah is a Postdoctoral Researcher at Murdoch University, affiliated with SoilsWest and the Centre for Sustainable Farming Systems. His scientific contributions primarily revolve around understanding the intricate relationships between aboveground plant diversity and belowground soil biodiversity. His research emphasizes a holistic approach to agricultural sustainability, investigating how soil microorganisms and fauna influence vital ecosystem services such as nutrient cycling and pest suppression. Dr. Jayaramaiah's work provides crucial mechanistic understandings that directly inform agricultural management practices and policy decisions, aiming to enhance soil health, crop productivity, and climate change resilience.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                        <div class="bg-[#F4F0EB] p-4 rounded-lg">
+                            <span class="text-3xl font-bold text-[#A38D78]" id="pubs-count">19</span>
+                            <p class="text-sm font-medium text-[#6D5D4D]">Publications</p>
+                        </div>
+                        <div class="bg-[#F4F0EB] p-4 rounded-lg">
+                            <span class="text-3xl font-bold text-[#A38D78]" id="cites-count">423</span>
+                            <p class="text-sm font-medium text-[#6D5D4D]">Citations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="journey" class="content-section">
+                <h2 class="text-4xl font-bold mb-4">Academic & Professional Journey</h2>
+                <p class="text-lg text-[#6D5D4D] mb-8 max-w-4xl">This interactive timeline visualizes the key milestones in Dr. Jayaramaiah's career. It illustrates his deliberate progression from a foundation in biochemistry to a specialized focus on microbial ecology and applied soil science. Click on any milestone to learn more about the role and its significance in his development as a researcher.</p>
+                <div class="relative pl-8" id="timeline-container"></div>
+            </div>
+
+            <div id="research" class="content-section">
+                <h2 class="text-4xl font-bold mb-4">Core Research Pillars</h2>
+                <p class="text-lg text-[#6D5D4D] mb-8 max-w-4xl">Dr. Jayaramaiah's work is built on several interconnected research themes. The pillars below represent his primary areas of expertise. Click on each pillar to explore his key contributions, foundational concepts, and the significance of his findings within that domain.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="research-pillars"></div>
+                <div id="research-details" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 min-h-[200px]">
+                    <p class="text-gray-500">Select a research pillar above to see the details.</p>
+                </div>
+            </div>
+
+            <div id="publications" class="content-section">
+                <h2 class="text-4xl font-bold mb-4">Scholarly Influence & Publications</h2>
+                <p class="text-lg text-[#6D5D4D] mb-8 max-w-4xl">This section provides insight into Dr. Jayaramaiah's scholarly output. The chart below visualizes his publication activity over time, while the filterable list allows you to explore a selection of his notable publications based on his core research themes. You can find his complete profile on <a href="https://scholar.google.ca/citations?hl=en&user=wJJUi5MAAAAJ" target="_blank" class="text-blue-600 hover:underline">Google Scholar</a>.</p>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-center text-[#6D5D4D]">Publication Timeline</h3>
+                     <div class="chart-container">
+                        <canvas id="pubsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-2xl font-bold mb-4 text-[#6D5D4D]">All Publications</h3>
+                    <div class="flex flex-wrap gap-2 mb-6" id="pub-filters">
+                        <button class="pub-filter-btn active-filter px-4 py-2 text-sm font-medium rounded-full bg-[#D5C5B5] text-[#4F463C]" data-filter="all">All Themes</button>
+                    </div>
+                    <div id="pub-list" class="space-y-4"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = {
+        timeline: [
+            {
+                date: '2009 - 2011',
+                title: 'MSc, Biochemistry',
+                institution: 'Kuvempu University',
+                description: 'Established a strong foundation in molecular processes, metabolic pathways, and chemical analysis techniques, which became crucial for his later interdisciplinary research.'
+            },
+            {
+                date: '2011 - 2016',
+                title: 'Project Assistant & Fellow',
+                institution: 'National Chemical Laboratory (NCL), India',
+                description: 'Applied biochemical expertise in a research setting, focusing on plant biochemistry and molecular biology, contributing to studies on medicinal plants like *Ocimum*.'
+            },
+            {
+                date: '2016 - 2017',
+                title: 'Research Associate',
+                institution: 'Pusan National University, South Korea',
+                description: 'Expanded international research experience in plant bioscience, deepening his understanding of plant biology and setting the stage for his focus on plant-microbe dynamics.'
+            },
+            {
+                date: '2018 - 2023',
+                title: 'PhD, Microbial Ecology',
+                institution: 'Western Sydney University (HIE)',
+                description: 'Pivotal shift integrating biochemistry with a dedicated focus on the ecological roles of microorganisms in soil systems, particularly within the Hawkesbury Institute for the Environment.'
+            },
+            {
+                date: '2023 - Present',
+                title: 'Postdoctoral Researcher',
+                institution: 'Murdoch University (SoilsWest)',
+                description: 'Currently investigating the role of soil fauna in nutrient transformation in agricultural soils, applying his diverse interdisciplinary skills to critical issues in sustainable agriculture.'
+            }
+        ],
+        researchPillars: [
+            {
+                id: 'p1',
+                title: 'Microbial Ecology & Plant-Microbe Interactions',
+                icon: '&#129440;',
+                summary: 'Exploring the diversity, structure, and function of microbial communities in soil and their interactions with plants, especially under environmental stress like drought.',
+                details: 'A cornerstone of Dr. Jayaramaiah\'s research is understanding how the interplay between plant and soil microbial diversity is crucial for predicting ecosystem responses to environmental changes. His work highlights that microbial diversity loss can significantly alter microbial community structure and impact vital soil processes, such as nitrogen (N) and phosphorus (P) cycling. This research provides a mechanistic basis for managing soil microbiomes to enhance ecosystem resilience.'
+            },
+            {
+                id: 'p2',
+                title: 'Soil Biology & Sustainable Agriculture',
+                icon: '&#127793;',
+                summary: 'Investigating the role of soil fauna (e.g., nematodes) in nutrient cycling and suppression of plant-parasitic nematodes in agricultural soils.',
+                details: 'This research extends beyond microbes to include soil macrofauna. A key finding demonstrated that soil fauna can transfer significant amounts of nitrogen and provide pest suppression functionality to agricultural soils. This highlights the potential for using targeted biological amendments, rather than purely chemical inputs, to enhance soil health and support sustainable plant growth, directly informing farming practices.'
+            },
+            {
+                id: 'p3',
+                title: 'Plant Biochemistry & Metabolomics',
+                icon: '&#128373;',
+                summary: 'Drawing on his foundational expertise to explore the chemical diversity and medicinal properties of plants, including endangered species.',
+                details: 'Dr. Jayaramaiah\'s earlier work utilized advanced techniques like metabolomics and transcriptomics to study plants like *Ocimum* and *Ceropegia*. This involved characterizing enzymes, identifying key secondary metabolites (terpenes, isoprenoids), and developing in vitro regeneration strategies for conservation. This biochemical expertise provides a valuable molecular-level understanding that complements his broader ecological research.'
+            }
+        ],
+        publications: [
+            {
+                title: 'Soil faunal community transfers nutrient cycling functionality and plant-parasitic nematode suppression from different depths of a natural soil to an agricultural soil.',
+                year: 2025,
+                journal: 'Applied Soil Ecology',
+                theme: 'Soil Biology & Sustainable Agriculture',
+                link: 'https://scholar.google.ca/scholar?q=Soil+faunal+community+transfers+nutrient+cycling+functionality+and+plant-parasitic+nematode+suppression+from+different+depths+of+a+natural+soil+to+an+agricultural+soil.'
+            },
+            {
+                title: 'Soil function-microbial diversity relationship is impacted by plant functional groups under climate change.',
+                year: 2025,
+                journal: 'Soil Biology and Biochemistry',
+                theme: 'Microbial Ecology & Plant-Microbe Interactions',
+                link: 'https://scholar.google.ca/scholar?q=Soil+function-microbial+diversity+relationship+is+impacted+by+plant+functional+groups+under+climate+change.'
+            },
+            {
+                title: 'Linking biodiversity and biotic interactions to ecosystem functioning.',
+                year: 2024,
+                journal: 'Journal of Sustainable Agriculture and Environment',
+                theme: 'Microbial Ecology & Plant-Microbe Interactions',
+                link: 'https://scholar.google.ca/scholar?q=Linking+biodiversity+and+biotic+interactions+to+ecosystem+functioning.'
+            },
+            {
+                title: 'Aboveground and belowground biodiversity have complementary effects on ecosystem functions across global grasslands.',
+                year: 2024,
+                journal: 'PLOS Biology',
+                theme: 'Microbial Ecology & Plant-Microbe Interactions',
+                link: 'https://scholar.google.ca/scholar?q=Aboveground+and+belowground+biodiversity+have+complementary+effects+on+ecosystem+functions+across+global+grasslands.'
+            },
+            {
+                title: 'Potential dual role of eugenol in inhibiting advanced glycation end products in diabetes: proteomic and mechanistic insights.',
+                year: 2016,
+                journal: 'Scientific Reports',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Potential+dual+role+of+eugenol+in+inhibiting+advanced+glycation+end+products+in+diabetes%3A+proteomic+and+mechanistic+insights.'
+            },
+            {
+                title: 'Development of diagnostic fragment ion library for glycated peptides of human serum albumin: targeted quantification in prediabetic, diabetic, and microalbuminuria plasma by parallel reaction monitoring, SWATH, and MSE',
+                year: 2015,
+                journal: 'Molecular & Cellular Proteomics',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Development+of+diagnostic+fragment+ion+library+for+glycated+peptides+of+human+serum+albumin%3A+targeted+quantification+in+prediabetic%2C+diabetic%2C+and+microalbuminuria+plasma+by+parallel+reaction+monitoring%2C+SWATH%2C+and+MSE'
+            },
+            {
+                title: 'Insecticidal potential of defense metabolites from Ocimum kilimandscharicum against Helicoverpa armigera.',
+                year: 2014,
+                journal: 'PloS one',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Insecticidal+potential+of+defense+metabolites+from+Ocimum+kilimandscharicum+against+Helicoverpa+armigera.'
+            },
+            {
+                title: 'Comparative functional characterization of eugenol synthase from four different Ocimum species: Implications on eugenol accumulation.',
+                year: 2016,
+                journal: 'Biochimica et Biophysica Acta (BBA)-Proteins and Proteomics',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Comparative+functional+characterization+of+eugenol+synthase+from+four+different+Ocimum+species%3A+Implications+on+eugenol+accumulation.'
+            },
+            {
+                title: 'Functional characterization and transient expression manipulation of a new sesquiterpene synthase involved in β-caryophyllene accumulation in Ocimum.',
+                year: 2016,
+                journal: 'Biochemical and Biophysical Research Communications',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Functional+characterization+and+transient+expression+manipulation+of+a+new+sesquiterpene+synthase+involved+in+%CE%B2-caryophyllene+accumulation+in+Ocimum.'
+            },
+            {
+                title: 'Evaluation of Bioactive Compounds in Strawberry Fruits by a Targeted Metabolomic Approach.',
+                year: 2017,
+                journal: 'Journal',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Evaluation+of+Bioactive+Compounds+in+Strawberry+Fruits+by+a+Targeted+Metabolomic+Approach.'
+            },
+            {
+                title: 'A viable alternative in vitro system and comparative metabolite profiling of different tissues for the conservation of Ceropegia karulensis.',
+                year: 2017,
+                journal: 'Plant Cell, Tissue and Organ Culture (PCTOC)',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=A+viable+alternative+in+vitro+system+and+comparative+metabolite+profiling+of+different+tissues+for+the+conservation+of+Ceropegia+karulensis.'
+            },
+            {
+                title: 'Combinatorial Approach Through In Vitro Regeneration and Phytochemical Profiling of Ceropegia media (Huber) Ans.: A Potential Way Forward in the Conservation of an Endangered Medicinal Plant from the Western Ghats in India.',
+                year: 2021,
+                journal: 'Journal of Plant Growth Regulation',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Combinatorial+Approach+Through+In+Vitro+Regeneration+and+Phytochemical+Profiling+of+Ceropegia+media+Huber+Ans.%3A+A+Potential+Way+Forward+in+the+Conservation+of+an+Endangered+Medicinal+Plant+from+the+Western+Ghats+in+India.'
+            },
+            {
+                title: 'High-throughput metabolomic and transcriptomic analyses vet the potential route of cerpegin biosynthesis in two varieties of Ceropegia bulbosa Roxb.',
+                year: 2020,
+                journal: 'Planta',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=High-throughput+metabolomic+and+transcriptomic+analyses+vet+the+potential+route+of+cerpegin+biosynthesis+in+two+varieties+of+Ceropegia+bulbosa+Roxb.'
+            },
+            {
+                title: 'Generation of novelties in the genus Ocimum as a result of natural hybridization: A morphological, genetical and chemical appraisal.',
+                year: 2020,
+                journal: 'Industrial Crops and Products',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Generation+of+novelties+in+the+genus+Ocimum+as+a+result+of+natural+hybridization%3A+A+morphological%2C+genetical+and+chemical+appraisal.'
+            },
+            {
+                title: 'Terpene profiling, transcriptome analysis and characterization of cis-β-terpineol synthase from Ocimum.',
+                year: 2019,
+                journal: 'Physiology and Molecular Biology of Plants',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Terpene+profiling%2C+transcriptome+analysis+and+characterization+of+cis-%CE%B2-terpineol+synthase+from+Ocimum.'
+            },
+            {
+                title: 'Soil initial bacterial diversity and nutrient availability determine the rate of xenobiotic biodegradation.',
+                year: 2021,
+                journal: 'Microbial Biotechnology',
+                theme: 'Soil Biology & Sustainable Agriculture',
+                link: 'https://scholar.google.ca/scholar?q=Soil+initial+bacterial+diversity+and+nutrient+availability+determine+the+rate+of+xenobiotic+biodegradation.'
+            },
+            {
+                title: 'Global Transcriptome Profiling of Xanthomonas oryzae pv. oryzae under in planta Growth and in vitro Culture Conditions.',
+                year: 2017,
+                journal: 'The Plant Pathology Journal',
+                theme: 'Plant Biochemistry & Metabolomics',
+                link: 'https://scholar.google.ca/scholar?q=Global+Transcriptome+Profiling+of+Xanthomonas+oryzae+pv.+oryzae+under+in+planta+Growth+and+in+vitro+Culture+Conditions.'
+            },
+            {
+                title: 'Science and values in the biodiversity-ecosystem function debate.',
+                year: 2022,
+                journal: 'Biology & Philosophy',
+                theme: 'Microbial Ecology & Plant-Microbe Interactions',
+                link: 'https://scholar.google.ca/scholar?q=Science+and+values+in+the+biodiversity-ecosystem+function+debate.'
+            },
+            {
+                title: 'Impacts of plant and microbial diversity interactions on key soil functions.',
+                year: 2022,
+                journal: 'Thesis',
+                theme: 'Microbial Ecology & Plant-Microbe Interactions',
+                link: 'https://scholar.google.ca/scholar?q=Impacts+of+plant+and+microbial+diversity+interactions+on+key+soil+functions.'
+            }
+        ]
+    };
+
+    const navLinks = document.querySelectorAll('#main-nav a');
+    const sections = document.querySelectorAll('.content-section');
+
+    function updateContent(hash) {
+        hash = hash || window.location.hash || '#overview';
+        
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        sections.forEach(section => {
+            if ('#' + section.id === hash) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            history.pushState(null, null, targetId);
+            updateContent(targetId);
+        });
+    });
+
+    window.addEventListener('popstate', () => updateContent(window.location.hash));
+    
+    function populateTimeline() {
+        const container = document.getElementById('timeline-container');
+        let html = '';
+        mainContent.timeline.forEach(item => {
+            html += `
+                <div class="timeline-item relative mb-6 cursor-pointer">
+                    <div class="timeline-dot"></div>
+                    <div class="pl-10">
+                        <p class="font-bold text-lg text-[#6D5D4D]">${item.title}</p>
+                        <p class="text-sm text-[#A38D78] font-medium">${item.date} | ${item.institution}</p>
+                        <div class="timeline-description hidden mt-2 text-gray-600 bg-white p-4 rounded-lg border border-gray-200">${item.description}</div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.querySelector('.timeline-description').classList.toggle('hidden');
+            });
+        });
+    }
+
+    function populateResearchPillars() {
+        const pillarsContainer = document.getElementById('research-pillars');
+        const detailsContainer = document.getElementById('research-details');
+        let pillarsHtml = '';
+        mainContent.researchPillars.forEach(pillar => {
+            pillarsHtml += `
+                <div class="pillar-card cursor-pointer p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-200" data-id="${pillar.id}">
+                    <span class="text-4xl">${pillar.icon}</span>
+                    <h3 class="text-xl font-bold mt-2 mb-2 text-[#6D5D4D]">${pillar.title}</h3>
+                    <p class="text-sm text-gray-600">${pillar.summary}</p>
+                </div>
+            `;
+        });
+        pillarsContainer.innerHTML = pillarsHtml;
+
+        pillarsContainer.querySelectorAll('.pillar-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const pillarId = this.dataset.id;
+                const pillarData = mainContent.researchPillars.find(p => p.id === pillarId);
+                detailsContainer.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-3 text-[#6D5D4D]">${pillarData.title}</h3>
+                    <p class="text-gray-700 leading-relaxed">${pillarData.details}</p>
+                `;
+            });
+        });
+    }
+
+    function createPublicationsChart() {
+        const pubsByYear = mainContent.publications.reduce((acc, pub) => {
+            acc[pub.year] = (acc[pub.year] || 0) + 1;
+            return acc;
+        }, {});
+
+        const years = Object.keys(pubsByYear).sort();
+        const counts = years.map(year => pubsByYear[year]);
+
+        const ctx = document.getElementById('pubsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Number of Publications',
+                    data: counts,
+                    backgroundColor: '#A38D78',
+                    borderColor: '#6D5D4D',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grace: 1, grid: { color: '#EAE3DA' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#4F463C',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        cornerRadius: 8,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function populatePublications() {
+        const listContainer = document.getElementById('pub-list');
+        const filtersContainer = document.getElementById('pub-filters');
+
+        const themes = [...new Set(mainContent.publications.map(p => p.theme))];
+        themes.forEach(theme => {
+            const btn = document.createElement('button');
+            btn.className = 'pub-filter-btn px-4 py-2 text-sm font-medium rounded-full bg-gray-200 hover:bg-[#D5C5B5] transition-colors';
+            btn.textContent = theme;
+            btn.dataset.filter = theme;
+            filtersContainer.appendChild(btn);
+        });
+        
+        function renderPubs(filter = 'all') {
+            const filteredPubs = (filter === 'all')
+                ? mainContent.publications
+                : mainContent.publications.filter(p => p.theme === filter);
+            
+            let html = '';
+            filteredPubs.forEach(pub => {
+                html += `
+                    <div class="p-4 border-l-4 border-[#D5C5B5] bg-[#F4F0EB]/50 rounded-r-lg">
+                        <p class="font-medium text-gray-800">${pub.title}</p>
+                        <p class="text-sm text-[#A38D78] mt-1">${pub.journal} (${pub.year})</p>
+                        ${pub.link ? `<a href="${pub.link}" target="_blank" class="text-blue-600 hover:underline text-sm">View Publication</a>` : ''}
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        filtersContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('pub-filter-btn')) {
+                filtersContainer.querySelectorAll('.pub-filter-btn').forEach(btn => btn.classList.remove('active-filter', 'bg-[#D5C5B5]', 'text-[#4F463C]'));
+                e.target.classList.add('active-filter', 'bg-[#D5C5B5]', 'text-[#4F463C]');
+                renderPubs(e.target.dataset.filter);
+            }
+        });
+        
+        renderPubs();
+    }
+    
+    updateContent();
+    populateTimeline();
+    populateResearchPillars();
+    createPublicationsChart();
+    populatePublications();
+});
+</script>
+</body>
+</html>
