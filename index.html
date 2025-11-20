@@ -9,6 +9,162 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- GLightbox (Best gallery 2025) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF8; }
+        h1, h2, h3 { font-family: 'Lora', serif; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .nav-link { transition: all 0.3s ease; }
+        .nav-link.active { background-color: #D5C5B5; color: #4F463C; }
+        .nav-link:hover:not(.active) { background-color: #EAE3DA; }
+        .timeline-item::before { content: ''; position: absolute; left: 11px; top: 12px; bottom: -12px; width: 2px; background-color: #D5C5B5; }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot { position: absolute; left: 0; top: 12px; width: 24px; height: 24px; border-radius: 50%; background-color: #A38D78; border: 4px solid #FDFBF8; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin: 0 auto; height: 350px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(79, 70, 60, 0.1);
+            transition: all 0.4s ease;
+        }
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(79, 70, 60, 0.2);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-caption {
+            padding: 1rem;
+            background: white;
+            font-size: 0.9rem;
+            color: #6D5D4D;
+        }
+    </style>
+</head>
+<body class="text-[#4F463C]">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-[#F4F0EB] p-4 md:p-6 md:fixed md:h-full md:overflow-y-auto">
+ <h1 class="text-2xl font-bold mb-2 text-[#6D5D4D]">Dr. Ramesha H. Jayaramaiah</h1>
+            <p class="text-sm text-[#A38D78] mb-6">Interactive Scientific Profile</p>
+            <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
+                <a href="#overview" class="nav-link text-left w-full p-3 rounded-lg font-medium">Profile Overview</a>
+                <a href="#journey" class="nav-link text-left w-full p-3 rounded-lg font-medium">Career Journey</a>
+                <a href="#research" class="nav-link text-left w-full p-3 rounded-lg font-medium">Research Pillars</a>
+                <a href="#publications" class="nav-link text-left w-full p-3 rounded-lg font-medium">Publications</a>
+                <a href="#gallery" class="nav-link text-left w-full p-3 rounded-lg font-medium">Photo Gallery</a> <!-- NEW -->
+            </nav>
+            <div class="mt-8 hidden md:block">
+                <p class="text-xs text-[#A38D78]">Interactive profile summarizing research in soil microbial ecology & sustainable agriculture.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-4 sm:p-8 md:p-12">
+
+            <!-- All your existing sections (overview, journey, research, publications) remain unchanged -->
+            <!-- I've kept them exactly as you had, just omitted here for brevity -->
+            <!-- ... [Your existing #overview, #journey, #research, #publications sections go here unchanged] ... -->
+
+            <!-- NEW: Photo Gallery Section -->
+            <div id="gallery" class="content-section">
+                <h2 class="text-4xl font-bold mb-6">Research & Fieldwork Gallery</h2>
+                <p class="text-lg text-[#6D5D4D] mb-10 max-w-4xl">
+                    Visual documentation from field experiments, lab work, conferences, and research sites across India, Australia, and South Korea.
+                </p>
+
+                <div class="gallery-grid">
+                    <!-- Replace these with your actual photos (upload to /images/ folder or use direct URLs) -->
+                    <a href="https://images.unsplash.com/photo-1533042785712-08f08ef1e7b6?w=1600" class="gallery-item block" data-glightbox="title: Soil sampling in Western Australia; description: Fieldwork at Murdoch University research plots, 2024">
+                        <img src="https://images.unsplash.com/photo-1533042785712-08f08ef1e7b6?w=800" alt="Soil sampling" loading="lazy">
+                        <div class="gallery-caption">Soil sampling in Western Australia (2024)</div>
+                    </a>
+                    <a href="https://images.unsplash.com/photo-1581093458791-9d6c92f06e7d?w=1600" class="gallery-item block" data-glightbox="title: Microbial culturing lab; description: Isolating soil bacteria at Hawkesbury Institute">
+                        <img src="https://images.unsplash.com/photo-1581093458791-9d6c92f06e7d?w=800" alt="Lab work" loading="lazy">
+                        <div class="gallery-caption">Microbial culturing in the lab</div>
+                    </a>
+                    <a href="https://images.unsplash.com/photo-1576085898278-1a0d1e8d0419?w=1600" class="gallery-item block" data-glightbox="title: Conference presentation; description: Presenting at ESA 2023, Perth">
+                        <img src="https://images.unsplash.com/photo-1576085898278-1a0d1e8d0419?w=800" alt="Conference" loading="lazy">
+                        <div class="gallery-caption">Presenting research at ESA 2023</div>
+                    </a>
+                    <a href="https://images.unsplash.com/photo-1581092580480-8b1b2d33e987?w=1600" class="gallery-item block" data-glightbox="title: Nematode microscopy; description: Analyzing soil fauna under microscope">
+                        <img src="https://images.unsplash.com/photo-1581092580480-8b1b2d33e987?w=800" alt="Microscopy" loading="lazy">
+                        <div class="gallery-caption">Soil nematode analysis under microscope</div>
+                    </a>
+                    <!-- Add as many as you want -->
+                </div>
+            </div>
+
+            <!-- Your existing sections below (copy-paste them back here) -->
+            <div id="overview" class="content-section active"> <!-- Make sure one is active by default -->
+                <!-- ... Your full overview content ... -->
+            </div>
+            <div id="journey" class="content-section">
+                <!-- ... Your full journey content ... -->
+            </div>
+            <div id="research" class="content-section">
+                <!-- ... Your full research content ... -->
+            </div>
+            <div id="publications" class="content-section">
+                <!-- ... Your full publications content ... -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- GLightbox JS -->
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize GLightbox
+            const lightbox = GLightbox({
+                touchNavigation: true,
+                loop: true,
+                autoplayVideos: true,
+                selector: '.gallery-item'
+            });
+
+            // Your existing JS code (navigation, timeline, chart, etc.) goes here unchanged
+            // ... [Paste ALL your existing <script> content here] ...
+
+            // Just add this small fix to make #gallery work with your navigation
+            const navLinks = document.querySelectorAll('#main-nav a');
+            const sections = document.querySelectorAll('.content-section');
+
+            function updateContent(hash) {
+                hash = hash || window.location.hash || '#overview';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                sections.forEach(section => section.classList.toggle('active', '#' + section.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    history.pushState(null, null, this.getAttribute('href'));
+                    updateContent(this.getAttribute('href'));
+                });
+            });
+
+            window.addEventListener('popstate', () => updateContent(window.location.hash));
+            updateContent();
+    
     <!-- Chosen Palette: Earthy Neutrals -->
     <!-- Application Structure Plan: A thematic, single-page application with a fixed sidebar navigation. This structure allows users to explore Dr. Jayaramaiah's work non-linearly, jumping between his career journey, research pillars, and publications. This is more intuitive and engaging than a long, scrolling report. Key interactions include an interactive timeline, clickable research theme cards that reveal detailed information, and a dynamic publications chart and filter. This design breaks down dense information into digestible, user-driven segments, enhancing comprehension and engagement. -->
     <!-- Visualization & Content Choices: 
@@ -531,6 +687,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
 
 
 
